@@ -1,0 +1,329 @@
+{
+  "guardrails": {
+    "abstention_rate": "10/10",
+    "abstention_target_met": true,
+    "cases": [
+      {
+        "critical": true,
+        "detail": {
+          "expected": [
+            "SLA-2024"
+          ],
+          "retrieved_doc_ids": [
+            "FAQ-atendimento",
+            "SLA-2024"
+          ]
+        },
+        "guardrail": "G-06",
+        "kind": "grounded",
+        "name": "platinum",
+        "passed": true
+      },
+      {
+        "critical": true,
+        "detail": {
+          "expected": [
+            "POL-001"
+          ],
+          "retrieved_doc_ids": [
+            "FAQ-atendimento",
+            "PROC-042-v1",
+            "POL-001"
+          ]
+        },
+        "guardrail": "G-05",
+        "kind": "grounded",
+        "name": "carga_perigosa",
+        "passed": true
+      },
+      {
+        "critical": true,
+        "detail": {
+          "alert_present": true,
+          "conflicts": [
+            "PROC-042"
+          ],
+          "retrieved_doc_ids": [
+            "PROC-042-v2",
+            "PROC-042-v1",
+            "SLA-2024"
+          ]
+        },
+        "guardrail": "G-07/G-08",
+        "kind": "conflict",
+        "name": "proc_042_conflito",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "expected": [
+            "POL-001"
+          ],
+          "retrieved_doc_ids": [
+            "POL-001",
+            "FAQ-atendimento",
+            "PROC-042-v1"
+          ]
+        },
+        "guardrail": "G-01",
+        "kind": "grounded",
+        "name": "citacao",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_1",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_2",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_3",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_4",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_5",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_6",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_7",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_8",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_9",
+        "passed": true
+      },
+      {
+        "critical": false,
+        "detail": {
+          "below_threshold": true
+        },
+        "guardrail": "G-03",
+        "kind": "abstain",
+        "name": "fora_da_base_10",
+        "passed": true
+      }
+    ],
+    "critical_all_passed": true
+  },
+  "problems": [
+    {
+      "evidence": "Para 'Posso devolver carga perigosa?', os 4 primeiros chunks são do FAQ (não oficial); POL-001 §3.2 só aparece em 5º (score 0.513).",
+      "fix": "Aplicar filtro/priorização por metadado is_official (where) ou rerank que promova fonte oficial; já há o seam where no Retriever (G-02).",
+      "id": "P1",
+      "title": "FAQ não validado supera o documento oficial no ranking"
+    },
+    {
+      "evidence": "Para 'Frete para 600kg para Manaus?', 'Objetivo'/'Fórmula' superam a seção '2.1 Multiplicadores regionais', que contém o valor do Norte.",
+      "fix": "Avaliar modelo de embedding multilíngue (paraphrase-multilingual / bge-m3) e/ou reranker cross-encoder; em produção, busca híbrida + semantic ranker do Azure AI Search.",
+      "id": "P2",
+      "title": "Seção com a resposta perde para seções genéricas"
+    },
+    {
+      "evidence": "Scores fora-da-base (0.39–0.54) se sobrepõem aos de perguntas válidas fracas (~0.50): o all-MiniLM-L6-v2 anglófono comprime a similaridade.",
+      "fix": "Calibrar o threshold por validação no Anexo B (operação ~0.55 abstém 10/10 fora-da-base) e migrar para embedding multilíngue para abrir a margem entre as faixas.",
+      "id": "P3",
+      "title": "Threshold absoluto não separa dentro vs fora da base"
+    }
+  ],
+  "recall": {
+    "coverage_ratio": 0.8889,
+    "mean_recall": 0.9444,
+    "per_question": [
+      {
+        "covered": true,
+        "expected": [
+          "POL-001"
+        ],
+        "question": "Qual o prazo de devolução?",
+        "recall": 1.0,
+        "retrieved": [
+          "POL-001",
+          "FAQ-atendimento",
+          "PROC-042-v1",
+          "PROC-042-v2"
+        ]
+      },
+      {
+        "covered": true,
+        "expected": [
+          "POL-001"
+        ],
+        "question": "Posso devolver carga perigosa?",
+        "recall": 1.0,
+        "retrieved": [
+          "FAQ-atendimento",
+          "PROC-042-v1",
+          "POL-001"
+        ]
+      },
+      {
+        "covered": true,
+        "expected": [
+          "SLA-2024"
+        ],
+        "question": "Qual o SLA do cliente Gold?",
+        "recall": 1.0,
+        "retrieved": [
+          "SLA-2024",
+          "FAQ-atendimento"
+        ]
+      },
+      {
+        "covered": true,
+        "expected": [
+          "SLA-2024"
+        ],
+        "question": "Qual o SLA do cliente Platinum?",
+        "recall": 1.0,
+        "retrieved": [
+          "FAQ-atendimento",
+          "SLA-2024"
+        ]
+      },
+      {
+        "covered": true,
+        "expected": [
+          "PROC-042-v2"
+        ],
+        "question": "Frete para 600kg para Manaus?",
+        "recall": 1.0,
+        "retrieved": [
+          "PROC-042-v1",
+          "PROC-042-v2"
+        ]
+      },
+      {
+        "covered": true,
+        "expected": [
+          "FAQ-atendimento"
+        ],
+        "question": "O que acontece com carga danificada?",
+        "recall": 1.0,
+        "retrieved": [
+          "FAQ-atendimento",
+          "SLA-2024"
+        ]
+      },
+      {
+        "covered": true,
+        "expected": [
+          "FAQ-atendimento"
+        ],
+        "question": "Carga perigosa com frete expresso?",
+        "recall": 1.0,
+        "retrieved": [
+          "FAQ-atendimento",
+          "PROC-042-v1"
+        ]
+      },
+      {
+        "covered": true,
+        "expected": [
+          "PROC-042-v2"
+        ],
+        "question": "Qual o multiplicador para o Sudeste?",
+        "recall": 1.0,
+        "retrieved": [
+          "PROC-042-v2",
+          "PROC-042-v1",
+          "POL-001",
+          "FAQ-atendimento"
+        ]
+      },
+      {
+        "covered": false,
+        "expected": [
+          "POL-001",
+          "PROC-042-v2"
+        ],
+        "question": "Prazo de devolução + carga perigosa + frete especial",
+        "recall": 0.5,
+        "retrieved": [
+          "POL-001",
+          "FAQ-atendimento",
+          "PROC-042-v1"
+        ]
+      }
+    ],
+    "question_count": 9,
+    "target_met": true,
+    "top_n": 5
+  },
+  "rubric": {
+    "note": "Avaliação de geração é manual no MVP — ver evidencias/1.3-teste-5-perguntas.md.",
+    "weights": {
+      "citation": 0.3,
+      "guardrail_adherence": 0.3,
+      "precision": 0.4
+    }
+  }
+}

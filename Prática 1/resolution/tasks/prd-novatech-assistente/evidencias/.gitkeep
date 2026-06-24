@@ -1,0 +1,6 @@
+# Pasta de evidências de uso de IA (exercícios de Dev 1.1/1.2/1.3)
+#
+# Arquivos esperados (preenchidos durante a execução das tarefas):
+# - 1.1-claude-historico.md     (Tarefa 1.0 — iteração da análise de viabilidade)
+# - 1.2-respostas-v1-v2.md      (Tarefa 5.0 — respostas das 2 rodadas do system prompt)
+# - 1.3-teste-5-perguntas.md    (Tarefa 6.0 — chunks/scores vs gabarito + resposta do Claude)
