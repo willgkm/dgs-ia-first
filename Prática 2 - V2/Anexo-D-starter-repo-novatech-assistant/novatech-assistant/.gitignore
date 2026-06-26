@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+.env
+
+# Estado de runtime do memory MCP server (nao versionar grafo local)
+.mcp/memory.json

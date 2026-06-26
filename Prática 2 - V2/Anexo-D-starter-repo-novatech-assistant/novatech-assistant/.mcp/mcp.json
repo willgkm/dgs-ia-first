@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "filesystem-workspace": {
+      "command": "npx",
+      "args": [
+        "-y", "@modelcontextprotocol/server-filesystem",
+        "./src", "./specs", "./skills", "./tests", "./prompts",
+        "./docs/adr", "./docs/runbooks"
+      ]
+    },
+    "filesystem-sources": {
+      "command": "npx",
+      "args": [
+        "-y", "@modelcontextprotocol/server-filesystem",
+        "./docs/novatech", "./data/retrieval-corpus"
+      ]
+    },
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "."]
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "env": { "MEMORY_FILE_PATH": "./.mcp/memory.json" }
+    },
+    "everything": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-everything"]
+    }
+  }
+}
